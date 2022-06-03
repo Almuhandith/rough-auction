@@ -1,16 +1,23 @@
-const startingTime = 50;
-let time = startingTime * 60 * 60;
+let bidEnd = new Date("Jun 6, 2022 12:00:00").getTime();
 
-const countdownEl = document.getElementsByClassName('countDown');
+let timer = setInterval(tick, 1000)
 
-setInterval(updateCountdown, 1000);
+function tick () {
+    let now = new Date().getTime();
+    let t = bidEnd - now;
 
-function updateCountdown() {
-    const hours = Math.floor(time / 360);
-    const minutes = time / 60;
-    let seconds = time % 60;
+    if (t>0) {
+        let hours = Math.floor(t/(1000 * 60 * 60));
+        if (hours < 10) { hours = "0" + hours; }
 
-    countdownEl.innerHTML = `${hours} : ${minutes} : ${seconds}`;
-    time--;
-} 
+        let mins = Math.floor ((t % (1000 * 60 * 60)) / (1000 * 60));
+        if (mins < 10) { mins = "0" + mins; }
 
+        let secs = Math.floor ((t % (1000 * 60)) / (1000));
+        if (secs < 10) { secs = "0" + secs; }
+
+        let time = `${hours} : ${mins} : ${secs}`;
+        
+        document.querySelector('.countDown').innerText = time;
+    }
+}
